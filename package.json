@@ -1,0 +1,22 @@
+{
+  "name": "rkjsbridge",
+  "version": "1.0.0",
+  "description": "JSBridge for cross-platform by yeliex",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.coding.net:rkf/rkjsbridge.git"
+  },
+  "keywords": [
+    "jsbridge",
+    "androis",
+    "ios",
+    "react-native",
+    "js"
+  ],
+  "author": "yeliex",
+  "license": "MIT"
+}
