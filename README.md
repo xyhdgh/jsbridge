@@ -1,51 +1,55 @@
-#快聚财jsbridge协议
+#jsbridge
 
-- 请求: `kjc://jsbridge/{params}
-- params: json转义后的字符串,键值对的格式
-    - eg: `kjc://jsbridge/{"type":"action","name":"share","callback":"callback_1466131023000","params":{"title":"title","description":"description","image":"image","link":"link"}}`
-- 参数
-    - type: 类型
-        - event 事件
-        - action 操作
-        - open 打开本地页面
-    - name: 名字
-        - eg: event/close 关闭事件
-        
-            open/product-list 打开产品列表
-    - callback: 回调方法名
-        - JSBridge.callback(callback,params) 
-        - 回调参数:
-            - callback: 请求时发送的callback参数的值
-            - params: 转义后的json字符串  
-    - params: 发送的参数键值对
-        - 格式: `key1=value1&key2=value2`
+JSBridge for jsvascript
 
-## 打开相关
-- 打开产品列表
-    - type: `open`
-    - name: `product-list`
-    - params: `/`
-- 打开资产详情页
-    - type: `open`
-    - name: `financing`
-    - params: 
-        - id: 资产ID(serial)
-        - product: 产品名字 
+- request format: `protocol://host:port/url[params]`
+    - eg: `jsbridge://kjc/{"type":"action","name":"share","callback":"callback_1466131023000"}`
+    - eg: (supposed) `jsbridge://kjc/action/share?callback=callback_1466131023000&title=title`
+- params
+    - `protocol`:
+        - customize protocol name
+        - cannot use protocols like `http` `https` `ftp` etc.
+    - `host` & `port` & `url`
+        - for dispatch
+        - `host` and `port` can be empty
+    - `params`
+        - data you want to send
+        - can be key-value string like original url
 
-## 操作相关
-- 分享操作
-    - 描述: 打开分享菜单
-    - type: `action`
-    - name: `share`
-    - params: 
-        - title: 分享的标题
-        - description: 分享的内容
-        - image: 图片url
-        - link: 跳转链接
+## Readme
 
-## 事件相关
-- 关闭页面
-    - 描述: 用户关闭页面
-    - type: `event`
-    - name: `close`
-    - params: `/`
+This is a very-base realization of JSBridge.
+
+It is mainly for pages embedded in native app to communicate with their host by breaking `webview`;
+
+## Description
+
+The package provides two methods, `invoke` for javascript and `callback` for native app.
+
+The Communication only could be called up in javascript,and then native app can reply sth. with callback.
+
+(Calling up in native app would support in the next version);
+
+## Usage
+- Javascript side
+```js
+// node environment (webpack or es6)
+const JSBridge = require('jsbridge').init('jsbridge','localhost');
+
+JSBridge.invoke('action',{key: value},(params) => { console.log(params) });
+
+
+// original javascript
+// <script src='node_modules/jsbridge/dist/index.js'></script>
+
+JSBridge.invoke('action',{key: value},(params) => { console.log(params) });
+```
+## API methods
+
+- init(protocol,hostname,port,isjson)
+    - init url preferences(try not to call it again, it would cover globally)
+    - if `isjson` is true, all params would padding by json-object instead of `key-value`
+- invoke(url,params,callback)
+    - call up a communication with native app
+- callback(callbackname,params)
+    - callback a function pass by `invoke`
