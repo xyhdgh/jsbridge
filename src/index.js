@@ -81,4 +81,4 @@
   }
 
   env.JSBridge = that;
-})(this);
+})(window || this);

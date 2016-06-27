@@ -1,9 +1,11 @@
 {
   "name": "jsbridge",
-  "version": "1.0.4",
+  "version": "1.0.7",
   "description": "JSBridge for jsvascript by yeliex",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "scripts": {
+    "prepublish": "npm run build",
+    "publish": "rm -rf dist/",
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
