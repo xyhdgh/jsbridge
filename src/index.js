@@ -17,13 +17,15 @@
       throw `jsbridge must be initialized at least once`;
     }
 
-    url = url.replace(/^\//, '').replace(/\/$/, '');
+    const callbackname = `callback_${Date.parse(new Date())}`;
 
-    callbackStack[`callback_${Date.parse(new Date())}`] = callback;
+    callbackStack[callbackname] = callback;
+
+    params.callback = callbackname;
 
     const reqUrl = `${baseUrl}${url}${isJson ? `/${JSON.stringify(params)}` : `?${Object.keys(params).map((key)=> {
       return `${key}=${params[key]}`;
-    }).join('&')}`}`;
+    }).join('&')}`}`.replace(/\/{1,}/g,'/').replace(/:\//g,'://');
 
     let request = document.createElement('IFRAME');
     request.setAttribute("src", reqUrl);

@@ -1,6 +1,6 @@
 {
   "name": "jsbridge",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "JSBridge for jsvascript by yeliex",
   "main": "src/index.js",
   "scripts": {
